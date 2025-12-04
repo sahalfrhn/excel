@@ -1,0 +1,636 @@
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Excelify - Make Excel Work for You</title>
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #050812;
+      color: #f5f5f5;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Layout */
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+    height: 85px;  /* More space for logo */
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background: #0a1228; /* Brighter navy blue */
+    }
+
+    .nav {
+      gap: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+    }
+
+    .logo {
+    margin-right: 20px;
+    height: 70px;   /* Increase size */
+    width: auto;
+    border-radius: 10px;
+    mix-blend-mode: normal;
+    object-fit: contain;
+    }
+
+    .logo-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #0aff9d, #00c2ff);
+      display: inline-block;
+    }
+
+    .logo img {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.08);
+  box-shadow:0 0 18px rgba(0,255,188,0.55);
+}
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      opacity: 0.8;
+    }
+
+    .nav-links a:hover {
+      opacity: 1;
+    }
+
+    .nav-links a:hover {
+    color: #0aff9d;
+    text-shadow: 0 0 8px rgba(0,255,188,0.6);
+    }
+
+
+    .btn-primary {
+      display: inline-block;
+      background: linear-gradient(135deg, #0aff9d, #00c2ff);
+      color: #050812;
+      padding: 0.7rem 1.3rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 0 18px rgba(0, 255, 188, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 28px rgba(0, 255, 188, 0.55);
+    }
+
+    .btn-ghost {
+      display: inline-block;
+      padding: 0.7rem 1.3rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: transparent;
+      color: #f5f5f5;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.35);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 3.5rem 0 3rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr);
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(10,255,157,0.06);
+      border: 1px solid rgba(10,255,157,0.45);
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-size: 2.3rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #0aff9d, #00c2ff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      opacity: 0.9;
+      margin-bottom: 1.3rem;
+      max-width: 460px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    /* Hero panel (right) */
+    .hero-panel {
+      border-radius: 1.2rem;
+      background: radial-gradient(circle at top left, rgba(0,255,188,0.15), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(0,140,255,0.25), transparent 55%),
+                  #060914;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 1.2rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+
+    .hero-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .status-pill {
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(10,255,157,0.12);
+      border: 1px solid rgba(10,255,157,0.6);
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .status-pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #0aff9d;
+    }
+
+    .panel-grid {
+      background: rgba(7,11,25,0.96);
+      border-radius: 0.9rem;
+      padding: 0.9rem;
+      border: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.8rem;
+    }
+
+    .panel-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.35rem 0.2rem;
+      border-bottom: 1px dashed rgba(255,255,255,0.08);
+    }
+
+    .panel-row:last-child {
+      border-bottom: none;
+    }
+
+    .panel-label {
+      opacity: 0.8;
+    }
+
+    .panel-value {
+      font-weight: 600;
+    }
+
+    .panel-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.7rem;
+    }
+
+    .panel-chip {
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 0.7rem;
+      opacity: 0.85;
+    }
+
+    /* Sections */
+    section {
+      padding: 2.5rem 0 2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 1.3rem;
+      max-width: 520px;
+    }
+
+    /* Services */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, rgba(0,255,188,0.09), transparent 55%),
+                  #070b18;
+      border-radius: 1rem;
+      padding: 1rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.9rem;
+    }
+
+    .card-title {
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      font-size: 0.98rem;
+    }
+
+    .card-tag {
+      font-size: 0.72rem;
+      opacity: 0.7;
+      margin-bottom: 0.3rem;
+    }
+
+    .card ul {
+      padding-left: 1.1rem;
+      margin-top: 0.3rem;
+      opacity: 0.9;
+    }
+
+    .card ul li {
+      margin-bottom: 0.2rem;
+    }
+
+    /* How it works */
+    .steps {
+      display: grid;
+      gap: 0.7rem;
+      font-size: 0.9rem;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+    }
+
+    .step-badge {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,255,188,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-weight: 600;
+      font-size: 0.96rem;
+    }
+
+    .step-text {
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+
+    /* Contact */
+    .contact-box {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 1.8rem;
+      align-items: center;
+    }
+
+    .contact-highlight {
+      font-size: 0.95rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .contact-list {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-bottom: 1rem;
+    }
+
+    .contact-list li {
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-panel {
+      background: #070b18;
+      border-radius: 1rem;
+      padding: 1rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.9rem;
+    }
+
+    .contact-panel label {
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 0.2rem;
+      opacity: 0.8;
+    }
+
+    .contact-panel input,
+    .contact-panel textarea {
+      width: 100%;
+      padding: 0.5rem 0.6rem;
+      border-radius: 0.6rem;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: #050812;
+      color: #f5f5f5;
+      font-size: 0.85rem;
+      margin-bottom: 0.6rem;
+      outline: none;
+    }
+
+    .contact-panel button {
+    margin-top: 0.4rem;
+    }
+
+    .contact-panel small {
+    display: block;
+    margin-top: 0.4rem;
+    }
+
+    footer {
+      padding: 1.5rem 0 2rem;
+      font-size: 0.78rem;
+      opacity: 0.7;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      margin-top: 2rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 820px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 2.2rem;
+      }
+
+      .hero-panel {
+        order: -1;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .contact-box {
+        grid-template-columns: 1fr;
+      }
+    }
+
+/* Hide hamburger on desktop */
+/* Hamburger button */
+.mobile-menu-btn {
+  display: none;
+  font-size: 26px;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.mobile-menu-btn:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* Mobile menu (hidden by default) */
+.mobile-menu {
+  display: none;
+  background: #0a1228;
+  width: 100%;
+  padding: 10px 18px 14px;
+  text-align: right;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+}
+
+.mobile-menu.open {
+  display: block;
+}
+
+.mobile-menu a {
+  display: block;
+  padding: 10px 0;
+  font-size: 0.95rem;
+  color: #ffffff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.mobile-menu a:last-child {
+  border-bottom: none;
+}
+
+.mobile-menu hr {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  margin: 6px 0 4px;
+}
+
+/* Desktop vs mobile behavior */
+@media (max-width: 820px) {
+  .nav-links {
+    display: none !important;  /* hide desktop links */
+  }
+
+  .mobile-menu-btn {
+    display: block;            /* show hamburger */
+  }
+}
+
+@media (min-width: 821px) {
+  .mobile-menu {
+    display: none !important;  /* never show dropdown on desktop */
+  }
+}
+
+  </style>
+</head>
+<body>
+  <!-- Header / Nav -->
+<header>
+
+  <div class="container nav">
+    <div class="logo">
+      <img src="img/lgreen.jpg"
+     class="logo"
+     alt="Excelify Logo" />
+    </div>
+
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="how.html">How it works</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <div style="display:flex; gap:14px; align-items:center; margin-left:10px;">
+      <a href="https://www.instagram.com/excelifyautomation" target="_blank" rel="noopener">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" style="height:22px;" alt="Instagram" />
+      </a>
+      <a href="https://facebook.com/profile.php?id=61584738113979" target="_blank" rel="noopener">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg" style="height:22px;" alt="Facebook" />
+      </a>
+      <a href="https://wa.me/917306084919" class="btn-ghost" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+
+    <div class="mobile-menu-btn" onclick="toggleMenu()">
+    ☰
+    </div>
+
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="toggleMenu()">Home</a>
+  <a href="services.html" onclick="toggleMenu()">Services</a>
+  <a href="how.html" onclick="toggleMenu()">How it works</a>
+  <a href="contact.html" onclick="toggleMenu()">Contact</a>
+  <hr>
+  <a href="https://www.instagram.com/excelifyautomation" target="_blank" onclick="toggleMenu()">Instagram</a>
+  <a href="https://facebook.com/profile.php?id=61584738113979" target="_blank" onclick="toggleMenu()">Facebook</a>
+  <a href="https://wa.me/917306084919" target="_blank" onclick="toggleMenu()">WhatsApp</a>
+</div>
+    
+     <main class="container">
+    <!-- Contact -->
+    <section id="contact">
+      <h2 class="section-title">Ready to make Excel work for you?</h2>
+      <p class="section-subtitle">
+        Send a WhatsApp message with your business type (for example: grocery, electronics, garments, wholesale)
+        and what you’d like to automate. We’ll reply with ideas and a simple plan.
+      </p>
+
+      <div class="contact-box">
+        <div>
+          <p class="contact-highlight">
+            📲 <strong>WhatsApp: +91 7306084919</strong>
+          </p>
+          <ul class="contact-list">
+            <li>💬 Quick response for new enquiries</li>
+            <li>🧾 Ideal for small & medium businesses</li>
+            <li>🖥 Works with the Excel you already have</li>
+          </ul>
+          <a href="https://wa.me/917306084919?text=Hi%2C%20I%20want%20to%20automate%20my%20Excel%20work." class="btn-primary" target="_blank" rel="noopener">
+            Message on WhatsApp
+          </a>
+        </div>
+
+        <div class="contact-panel">
+        <p style="margin-bottom:0.5rem; font-weight:600;">Prefer email instead of WhatsApp?</p>
+        <p style="margin-bottom:0.7rem; font-size:0.9rem; opacity:0.85;">
+            Send your details here and we’ll reply with ideas and a simple plan.
+        </p>
+
+        <form action="https://formspree.io/f/xovgwbzl" method="POST">
+        <label>Your name</label>
+        <input type="text" name="name" placeholder="e.g. Ahmed, Star Mobiles" required />
+
+        <label>WhatsApp number</label>
+        <input type="tel" name="whatsapp" placeholder="+91 73060 84919" required />
+
+        <label>Business type</label>
+        <input type="text" name="business_type" placeholder="e.g. Mobile shop, garments, supermarket" required />
+
+        <label>What do you want to automate?</label>
+        <textarea name="requirements" rows="3" placeholder="e.g. Billing, stock, daily reports..." required></textarea>
+
+        <button type="submit" class="btn-primary" style="width:100%; margin-top:0.3rem;">
+        Send Details
+        </button>
+
+        <small>
+            You'll get a reply on WhatsApp or email as soon as possible.
+        </small>
+        </form>
+    </div>
+      </div>
+    </section>
+    </main>
+
+   <footer>
+  Excelify — Make Excel Work for You <br>
+  📲 WhatsApp: +91 7306084919 |
+  📸 Instagram: @excelifyautomation
+</footer>
+
+<script>
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  menu.classList.toggle('open');
+}
+</script> 
+</body>
+</html>
